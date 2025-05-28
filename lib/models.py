@@ -1,6 +1,5 @@
-from sqlalchemy import ForeignKey, Column, Integer, String, MetaData
-from sqlalchemy.orm import relationship, backref
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import ForeignKey, Column, Integer, String, MetaData, DateTime
+from sqlalchemy.orm import relationship, declarative_base
 from datetime import datetime
 
 # Define the naming convention for foreign keys
@@ -20,7 +19,7 @@ class Company(Base):
     founding_year = Column(Integer(), nullable=False)
 
     # Establish a relationship with Freebie
-    freebies = relationship('Freebie', backref='company', lazy='dynamic')
+    freebies = relationship('Freebie', back_populates='company')
 
     def __repr__(self):
         return f'<Company {self.name}', f'Founded in {self.founding_year}>'
@@ -32,7 +31,7 @@ class Dev(Base):
     name= Column(String(), nullable=False)
 
     # Establish a relationship with Freebie
-    freebies = relationship('Freebie', backref='dev', lazy='dynamic')
+    freebies = relationship('Freebie', back_populates='dev')
 
     def __repr__(self):
         return f'<Dev {self.name}>'
