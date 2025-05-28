@@ -23,13 +23,16 @@ class Company(Base):
     freebies = relationship('Freebie', backref='company', lazy='dynamic')
 
     def __repr__(self):
-        return f'<Company {self.name}>'
+        return f'<Company {self.name}', f'Founded in {self.founding_year}>'
 
 class Dev(Base):
     __tablename__ = 'devs'
 
     id = Column(Integer(), primary_key=True)
-    name= Column(String())
+    name= Column(String(), nullable=False)
+
+    # Establish a relationship with Freebie
+    freebies = relationship('Freebie', backref='dev', lazy='dynamic')
 
     def __repr__(self):
         return f'<Dev {self.name}>'
