@@ -36,3 +36,18 @@ class Dev(Base):
 
     def __repr__(self):
         return f'<Dev {self.name}>'
+    
+class Freebie(Base):
+    __tablename__ = 'freebies'
+
+    id = Column(Integer(), primary_key=True)
+    name = Column(String(), nullable=False)
+    description = Column(String(), nullable=False)
+    date_given = Column(String(), default=datetime.utcnow().strftime('%Y-%m-%d'))
+    
+    # Foreign keys
+    company_id = Column(Integer(), ForeignKey('companies.id'), nullable=False)
+    dev_id = Column(Integer(), ForeignKey('devs.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Freebie {self.name}>'
