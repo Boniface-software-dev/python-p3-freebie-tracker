@@ -56,6 +56,11 @@ class Dev(Base):
         """
         if freebie in self.freebies:
             freebie.dev = other_dev
+
+    @property
+    def companies(self):
+        """Returns a set of companies from which the dev has received freebies."""
+        return {freebie.company for freebie in self.freebies}
     
 class Freebie(Base):
     __tablename__ = 'freebies'
@@ -63,7 +68,6 @@ class Freebie(Base):
     id = Column(Integer(), primary_key=True)
     item_name = Column(String(), nullable=False)
     value = Column(String(), nullable=False)
-    date_given = Column(String(), default=datetime.utcnow().strftime('%Y-%m-%d'))
     
     # Foreign keys
     company_id = Column(Integer(), ForeignKey('companies.id'), nullable=False)
@@ -74,4 +78,8 @@ class Freebie(Base):
     dev = relationship('Dev', back_populates='freebies')
     
     def __repr__(self):
-        return f'Item: {self.item_name}', f'Description: {self.value}', f'Date Given: {self.date_given}>'
+        return f'Item: {self.item_name}', f'Description: {self.value}>'
+
+    def print_details(self):
+        """Returns a string detailing the freebie's ownership."""
+        return f"{self.dev.name} owns a {self.item_name} from {self.company.name}."
