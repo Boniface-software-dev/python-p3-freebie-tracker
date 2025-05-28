@@ -41,13 +41,17 @@ class Freebie(Base):
     __tablename__ = 'freebies'
 
     id = Column(Integer(), primary_key=True)
-    name = Column(String(), nullable=False)
+    item_name = Column(String(), nullable=False)
     description = Column(String(), nullable=False)
     date_given = Column(String(), default=datetime.utcnow().strftime('%Y-%m-%d'))
     
     # Foreign keys
     company_id = Column(Integer(), ForeignKey('companies.id'), nullable=False)
     dev_id = Column(Integer(), ForeignKey('devs.id'), nullable=False)
-
+     
+     #Relationships
+    company = relationship('Company', back_populates='freebies')
+    dev = relationship('Dev', back_populates='freebies')
+    
     def __repr__(self):
-        return f'<Freebie {self.name}>'
+        return f'Item: {self.item_name}', f'Description: {self.description}', f'Date Given: {self.date_given}>'
