@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from models import Base, Company, Dev, Freebie
 
 # Create an engine and session
-engine = create_engine('sqlite:///freebies.db')
+engine = create_engine('sqlite:///lib/freebies.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 
