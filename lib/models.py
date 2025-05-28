@@ -19,10 +19,15 @@ class Company(Base):
     founding_year = Column(Integer(), nullable=False)
 
     # Establish a relationship with Freebie
-    freebies = relationship('Freebie', back_populates='company')
+    freebies = relationship('Freebie', back_populates='company', cascade='all, delete-orphan')
 
     def __repr__(self):
         return f'<Company {self.name}', f'Founded in {self.founding_year}>'
+    
+    def give_freebie(self,dev, item_name, value):
+        """Creates a new Freebie associated with this company and the given dev."""
+        return Freebie(item_name=item_name, value=value, dev=dev, company=self)
+
 
 class Dev(Base):
     __tablename__ = 'devs'
@@ -41,7 +46,7 @@ class Freebie(Base):
 
     id = Column(Integer(), primary_key=True)
     item_name = Column(String(), nullable=False)
-    description = Column(String(), nullable=False)
+    value = Column(String(), nullable=False)
     date_given = Column(String(), default=datetime.utcnow().strftime('%Y-%m-%d'))
     
     # Foreign keys
@@ -53,4 +58,4 @@ class Freebie(Base):
     dev = relationship('Dev', back_populates='freebies')
     
     def __repr__(self):
-        return f'Item: {self.item_name}', f'Description: {self.description}', f'Date Given: {self.date_given}>'
+        return f'Item: {self.item_name}', f'Description: {self.value}', f'Date Given: {self.date_given}>'
