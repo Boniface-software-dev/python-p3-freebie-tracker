@@ -50,6 +50,13 @@ class Dev(Base):
         """Checks if the dev has received a freebie with the given item name."""
         return any(freebie.item_name == item_name for freebie in self.freebies)
     
+    def give_away(self, other_dev, freebie):
+        """
+        Transfers a freebie to another dev if the freebie belongs to this dev.
+        """
+        if freebie in self.freebies:
+            freebie.dev = other_dev
+    
 class Freebie(Base):
     __tablename__ = 'freebies'
 
