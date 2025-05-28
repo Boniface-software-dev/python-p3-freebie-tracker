@@ -46,6 +46,10 @@ class Dev(Base):
     def __repr__(self):
         return f'<Dev {self.name}>'
     
+    def received_one(self, item_name):
+        """Checks if the dev has received a freebie with the given item name."""
+        return any(freebie.item_name == item_name for freebie in self.freebies)
+    
 class Freebie(Base):
     __tablename__ = 'freebies'
 
