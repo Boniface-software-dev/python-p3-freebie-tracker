@@ -27,6 +27,11 @@ class Company(Base):
     def give_freebie(self,dev, item_name, value):
         """Creates a new Freebie associated with this company and the given dev."""
         return Freebie(item_name=item_name, value=value, dev=dev, company=self)
+    
+    @classmethod
+    def oldest_company(cls, session):
+        """Returns the oldest company in the database."""
+        return session.query(cls).order_by(cls.founding_year).first()
 
 
 class Dev(Base):
